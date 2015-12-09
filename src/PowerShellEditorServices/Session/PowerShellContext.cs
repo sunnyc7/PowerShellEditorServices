@@ -262,10 +262,14 @@ namespace Microsoft.PowerShell.EditorServices
 
                         if (this.powerShell.HadErrors)
                         {
-                            // TODO: Find a good way to extract errors!
-                            Logger.Write(
-                                LogLevel.Error, 
-                                "Execution completed with errors.");
+                            string errorMessage = "Execution completed with errors:\r\n\r\n";
+
+                            foreach (var error in this.powerShell.Streams.Error)
+                            {
+                                errorMessage += error.ToString() + "\r\n";
+                            }
+
+                            Logger.Write(LogLevel.Error, errorMessage);
                         }
                         else
                         {

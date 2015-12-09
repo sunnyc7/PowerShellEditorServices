@@ -429,6 +429,17 @@ namespace Microsoft.PowerShell.EditorServices.Test.Host
             Assert.Equal("stdout", outputEvent.Category);
         }
 
+        [Fact]
+        public async Task ServiceExpandsAliases()
+        {
+            string expandedText =
+                await this.SendRequest(
+                    ExpandAliasRequest.Type,
+                    "gci\r\npwd");
+
+            Assert.Equal("Get-ChildItem\r\nGet-Location", expandedText);
+        }
+
         [Fact]//(Skip = "Choice prompt functionality is currently in transition to a new model.")]
         public async Task ServiceExecutesReplCommandAndReceivesChoicePrompt()
         {
