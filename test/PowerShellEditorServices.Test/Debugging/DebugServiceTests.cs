@@ -29,20 +29,20 @@ namespace Microsoft.PowerShell.EditorServices.Test.Debugging
 
         public DebugServiceTests()
         {
-            this.workspace = new Workspace();
-
-            // Load the test debug file
-            this.debugScriptFile =
-                this.workspace.GetFile(
-                    @"..\..\..\PowerShellEditorServices.Test.Shared\Debugging\DebugTest.ps1");
-
             this.powerShellContext = new PowerShellContext();
             this.powerShellContext.SessionStateChanged += powerShellContext_SessionStateChanged;
+
+            this.workspace = new Workspace(this.powerShellContext.PowerShellVersion);
 
             this.debugService = new DebugService(this.powerShellContext);
             this.debugService.DebuggerStopped += debugService_DebuggerStopped;
             this.debugService.BreakpointUpdated += debugService_BreakpointUpdated;
             this.runnerContext = SynchronizationContext.Current;
+
+            // Load the test debug file
+            this.debugScriptFile =
+                this.workspace.GetFile(
+                    @"..\..\..\PowerShellEditorServices.Test.Shared\Debugging\DebugTest.ps1");
         }
 
         void powerShellContext_SessionStateChanged(object sender, SessionStateChangedEventArgs e)

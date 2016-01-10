@@ -58,15 +58,15 @@ namespace Microsoft.PowerShell.EditorServices
         /// </summary>
         public void StartSession()
         {
-            // Create a workspace to contain open files
-            this.Workspace = new Workspace();
-
             // Initialize all services
             this.PowerShellContext = new PowerShellContext();
             this.LanguageService = new LanguageService(this.PowerShellContext);
             this.AnalysisService = new AnalysisService();
             this.DebugService = new DebugService(this.PowerShellContext);
             this.ConsoleService = new ConsoleService(this.PowerShellContext);
+
+            // Create a workspace to contain open files
+            this.Workspace = new Workspace(this.PowerShellContext.PowerShellVersion);
         }
 
         #endregion
